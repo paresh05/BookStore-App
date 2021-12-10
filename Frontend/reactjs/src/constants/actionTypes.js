@@ -1,0 +1,4 @@
+export const ActionTypes = {
+  FETCH_BOOKS: "FETCH_BOOKS",
+  FETCH_SEARCH_BOOKS: "FETCH_SEARCH_BOOKS",
+};

@@ -1,0 +1,10 @@
+@mixin login {
+  padding: 10px;
+  height: 70%;
+  width: 80%;
+  margin: 3% auto;
+  max-width: 750px;
+}
+.paperStyle {
+  @include login;
+}

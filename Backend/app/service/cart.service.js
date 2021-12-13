@@ -8,15 +8,15 @@
  *
  **************************************************************************/
 
-const { createCart, findCart, deleteCart } = require("../model/cart.model.js");
+const { createCart, findCart, deleteCart, findCartAndUpdate} = require("../model/cart.model.js");
 
 /**
  * @description creates a new cart using create cart function
  * @param {callback} callback
  * @returns cart or err
  */
-const createNewCart = (userId, itemId, itemCost, numOfItems, callback) => {
-  let cart = createCart({userId, itemId, itemCost, numOfItems }, (err, data) => {
+const createNewCart = (userId, bookId, price, title, image, author, callback) => {
+  let cart = createCart({userId, bookId, price, title, image, author}, (err, data) => {
     return err ? callback(err, null) : callback(null, data);
   });
   return cart;
@@ -29,6 +29,26 @@ const findAllCart = (callback) => {
   findCart((err, data) => {
     return err ? callback(err, null) : callback(null, data);
   });
+};
+
+/**
+ * @description updates the user of the id using updateCart function
+ * @param {_id} findCartId
+ * @param {string} numberOfItems
+ * @param {callback} callback
+ */
+ const updateCart = (
+  findCartId,
+  numOfItems,
+  callback
+) => {
+  findCartAndUpdate(
+    findCartId,
+    numOfItems,
+    (err, data) => {
+      return err ? callback(err, null) : callback(null, data);
+    }
+  );
 };
 
 /**
@@ -45,5 +65,6 @@ const deleteCartById = (findCartId, callback) => {
 module.exports = {
   createNewCart,
   findAllCart,
+  updateCart,
   deleteCartById,
 };

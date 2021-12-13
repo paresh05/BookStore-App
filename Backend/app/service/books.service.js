@@ -13,9 +13,14 @@ const { findBook, findBookId } = require("../model/books.model.js");
  * @description finds all the users using findUser function
  * @param {callback} callback
  */
-const findAllBook = (callback) => {
+const findAllBook = (pageNo, callback) => {
+  const page = pageNo;
+  let limit = 12;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
   findBook((err, data) => {
-    return err ? callback(err, null) : callback(null, data);
+    const paginatedData = data.slice(startIndex, endIndex);
+    return err ? callback(err, null) : callback(null, paginatedData);
   });
 };
 /**

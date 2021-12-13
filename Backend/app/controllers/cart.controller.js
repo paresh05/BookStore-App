@@ -11,6 +11,7 @@
 const {
   createNewCart,
   findAllCart,
+  updateCart,
   deleteCartById,
 } = require("../service/cart.service.js");
 const logger = require("../../logger");
@@ -21,16 +22,25 @@ const logger = require("../../logger");
  * @param {Object} res
  */
 exports.create = (req, res) => {
-  createNewCart(req.userId, req.itemId, req.itemCost, req.numOfItems, (err, dataCart) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating the Cart.",
-      });
-      logger.error("Some error occurred while creating the Cart.");
+  createNewCart(
+    req.body.userId,
+    req.body.bookId,
+    req.body.price,
+    req.body.title,
+    req.body.image,
+    req.body.author,
+    (err, dataCart) => {
+      if (err) {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Cart.",
+        });
+        logger.error("Some error occurred while creating the Cart.");
+      }
+      res.send(dataCart);
+      logger.info("Successfully created the Cart");
     }
-    res.send(dataCart);
-    logger.info("Successfully created the Cart");
-  });
+  );
 };
 /**
  * @description handles request and response for finding all the cart
@@ -47,6 +57,38 @@ exports.findAll = (req, res) => {
     }
     res.send(cart);
     logger.info("Successfully returned all the cart.");
+  });
+};
+
+/**
+ * @description handles request and response for updating a cart
+ * @param {Object} req
+ * @param {Object} res
+ */
+exports.update = (req, res) => {
+  let id = req.params.cartId;
+  let numOfItems = req.body.numOfItems;
+  updateCart(id, numOfItems, (err, cart) => {
+    if (err) {
+      if (err.kind === "ObjectId") {
+        logger.error("Cart not found ");
+        return res.status(404).send({
+          message: "Cart not found with id " + req.params.cartId,
+        });
+      }
+      logger.error("Error retrieving Cart");
+      return res.status(500).send({
+        message: "Error updating Cart with id " + req.params.cartId,
+      });
+    }
+    if (!cart) {
+      logger.error("cart not found");
+      return res.status(404).send({
+        message: "cart not found with id " + req.params.cartId,
+      });
+    }
+    res.send(cart);
+    logger.info("Successfully updated the cart");
   });
 };
 

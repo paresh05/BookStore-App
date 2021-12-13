@@ -13,8 +13,11 @@ const mongoose = require("mongoose");
  */
 const CartSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  itemId: String,
-  itemCost: String,
+  bookId: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
+  author:String,
+  image:String,
+  title:String,
+  price: String,
   numOfItems: Number,
 });
 
@@ -25,12 +28,15 @@ const Cart = mongoose.model("Cart", CartSchema);
  * @param {callback} callback
  * @returns err or cart
  */
-const createCart = ({userId, itemId, itemCost, numOfItems }, callback) => {
+const createCart = ({userId, bookId, price, title, image, author}, callback) => {
   const cart = new Cart({
     userId: userId,
-    itemId: itemId,
-    itemCost: itemCost,
-    numOfItems: numOfItems,
+    bookId: bookId,
+    price: price,
+    title: title,
+    image: image,
+    author: author,
+    numOfItems: 1,
   });
   return cart.save((err, cart) => {
     return err ? callback(err, null) : callback(null, cart);
@@ -48,6 +54,30 @@ const findCart = (callback) => {
 };
 
 /**
+  * @description This function updates a cart of the id passed
+  * @param {string} findCartId 
+  * @param {string} numOfItems 
+  * @param {string} callback 
+  * @returns err or data
+  */
+ const findCartAndUpdate = (
+  findCartId,
+  numOfItems,
+  callback
+) => {
+  return Cart.findByIdAndUpdate(
+    findCartId,
+    {
+      numOfItems: numOfItems,
+    },
+    { new: true },
+    (err, data) => {
+      return err ? callback(err, null) : callback(null, data);
+    }
+  );
+};
+
+/**
  * @description This function is used to delete a cart of the id passed
  * @param {_id} findCartId
  * @param {callback} callback
@@ -57,4 +87,4 @@ const deleteCart = (findCartId, callback) => {
     return err ? callback(err, null) : callback(null, data);
   });
 };
-module.exports = { Cart, createCart, findCart, deleteCart };
+module.exports = { Cart, createCart, findCart, deleteCart, findCartAndUpdate};

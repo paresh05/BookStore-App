@@ -18,5 +18,7 @@ module.exports = (app) => {
 
   app.get("/cart",verifyToken, cart.findAll);
 
+  app.put("/cart/:cartId", verifyToken, cart.update);
+
   app.delete("/cart/:cartId",verifyToken, cart.delete);
 };

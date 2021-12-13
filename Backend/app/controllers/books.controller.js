@@ -16,7 +16,7 @@ const logger = require("../../logger");
  * @param {Object} res
  */
 exports.findAll = (req, res) => {
-  findAllBook((err, user) => {
+  findAllBook(req.query.page,(err, user) => {
     if (err) {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving books.",

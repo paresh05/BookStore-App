@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   const fetchBooks = () => {
     userConnect
-      .getBooks()
+      .getBooks(1)
       .then((response) => {
 
         dispatch(fetchAllBooks(response.data))

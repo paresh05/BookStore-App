@@ -13,6 +13,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Popover from "@mui/material/Popover";
 import { Avatar, Button } from "@material-ui/core";
 import { Stack } from "@mui/material";
+import { Redirect } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,6 +62,7 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
 }));
 
 export default function Appbar() {
+  const [redirect, setRedirect] = useState(false);
   const [input, setInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -78,8 +80,8 @@ export default function Appbar() {
         variant="outlined"
         sx={{ bgcolor: "rgba(160, 48, 55, 1)" }}
       >
-        <Toolbar>
-          <MenuBookIcon sx={{ marginRight: "10px" }} />
+        <Toolbar sx={{ ml: "161px" }}>
+          <MenuBookIcon/>
           <Typography
             variant="h6"
             noWrap
@@ -104,6 +106,7 @@ export default function Appbar() {
               <IconButton
                 size="large"
                 color="inherit"
+                onClick={()=>{setRedirect(true)}}
               >
                 <ShoppingCartOutlinedIcon />
               </IconButton>
@@ -132,6 +135,7 @@ export default function Appbar() {
           </Box>
         </Toolbar>
       </AppBar>
+      {redirect ? <Redirect to="/bookstore/cart" /> : null}
     </Box>
   );
 }

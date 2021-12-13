@@ -12,3 +12,24 @@ export const fetchFilteredBooks = (books) => {
     payload: books,
   };
 };
+
+export const fetchCart = (book) => {
+  return {
+    type: ActionTypes.FETCH_CART,
+    payload: book,
+  };
+};
+
+export const addCart = (book) => {
+  return {
+    type: ActionTypes.ADD_TO_CART,
+    payload: book,
+  };
+};
+
+export const updateCart = (book) => {
+  return {
+    type: ActionTypes.UPDATE_CART,
+    payload: book,
+  };
+};

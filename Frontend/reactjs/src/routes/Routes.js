@@ -5,6 +5,7 @@ import { CreateUser } from "../pages/CreateUser";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/Reset";
 import Dashboard from "../pages/Dashboard";
+import Cart from "../pages/Cart";
 
 const Routes = () => {
   return (
@@ -14,6 +15,7 @@ const Routes = () => {
       <Route path="/forgotPassword" exact component={ForgotPassword} />
       <Route path="/reset/:token" exact component={ResetPassword} />
       <Route path="/bookstore" exact component={Dashboard} />
+      <Route path="/bookstore/cart" exact component={Cart} />
     </Router>
   );
 };

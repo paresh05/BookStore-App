@@ -25,8 +25,8 @@ const createNewCart = (userId, bookId, price, title, image, author, callback) =>
  * @description finds all the users using findCart function
  * @param {callback} callback
  */
-const findAllCart = (callback) => {
-  findCart((err, data) => {
+const findAllCart = (userId,callback) => {
+  findCart(userId,(err, data) => {
     return err ? callback(err, null) : callback(null, data);
   });
 };

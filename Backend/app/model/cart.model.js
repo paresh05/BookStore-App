@@ -47,8 +47,8 @@ const createCart = ({userId, bookId, price, title, image, author}, callback) => 
  * @description This function is used to retrieve all the cart
  * @param {callback} callback
  */
-const findCart = (callback) => {
-  Cart.find((err, cart) => {
+const findCart = (userId, callback) => {
+  Cart.find({ userId: userId },(err, cart) => {
     return err ? callback(err, null) : callback(null, cart);
   });
 };

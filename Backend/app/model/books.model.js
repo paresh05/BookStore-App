@@ -32,14 +32,4 @@ const findBook = (callback) => {
     return err ? callback(err, null) : callback(null, book);
   });
 };
-/**
- * @description This function is used to retrieve a user by passing the id
- * @param {_id} findUserId
- * @param {callback} callback
- */
-const findBookId = (findBookId, callback) => {
-  Book.findById(findBookId, (err, book) => {
-    return err ? callback(err, null) : callback(null, book);
-  });
-};
-module.exports = { Book, findBook, findBookId };
+module.exports = { Book, findBook };

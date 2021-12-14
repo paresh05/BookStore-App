@@ -25,6 +25,7 @@ app.use(express.json());
 require("./app/routes/user.routes.js")(app);
 require("./app/routes/books.routes.js")(app);
 require("./app/routes/cart.routes.js")(app);
+require("./app/routes/customer.routes.js")(app);
 // listen for requests
 module.exports = app.listen(process.env.PORT, () => {
   console.log("Server is listening on port " + process.env.PORT);

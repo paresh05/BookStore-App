@@ -48,7 +48,7 @@ exports.create = (req, res) => {
  * @param {Object} res
  */
 exports.findAll = (req, res) => {
-  findAllCart((err, cart) => {
+  findAllCart(req.body.userId,(err, cart) => {
     if (err) {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving cart.",

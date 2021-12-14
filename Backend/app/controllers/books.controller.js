@@ -27,32 +27,3 @@ exports.findAll = (req, res) => {
     logger.info("Successfully returned all the books. ");
   });
 };
-/**
- * @description handles request and response for finding a book using id
- * @param {Object} req
- * @param {Object} res
- */
-exports.findOne = (req, res) => {
-  findBookById(req.params.bookId, (err, book) => {
-    if (err) {
-      if (err.kind === "ObjectId") {
-        logger.error("book not found");
-        return res.status(404).send({
-          message: "Book not found with id " + req.params.bookId,
-        });
-      }
-      logger.error("Error retrieving book");
-      return res.status(500).send({
-        message: "Error retrieving book with id " + req.params.bookId,
-      });
-    }
-    if (!book) {
-      logger.error("Book not found");
-      return res.status(404).send({
-        message: "Book not found with id " + req.params.bookId,
-      });
-    }
-    res.send(book);
-    logger.info("Successfully found the Book ");
-  });
-};

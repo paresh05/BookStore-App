@@ -11,9 +11,8 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { updateCart } from "../actions/bookAction";
 
-export default function CartItems() {
+export default function CartItems(props) {
   const dispatch = useDispatch();
-  const [count, setCount] = useState([1,1,1]);
   const myCart = useSelector((state) => state.allBooks.cart);
   const handleIncrement = (book,index) => {
     let data = {
@@ -152,6 +151,7 @@ export default function CartItems() {
                     type="submit"
                     size="small"
                     style={{ background: "#3371B5", color: "white", width:"151px", height:"35px"}}
+                    onClick={()=>props.handleAccordion()}
                   >
                     Place Order
                   </Button>

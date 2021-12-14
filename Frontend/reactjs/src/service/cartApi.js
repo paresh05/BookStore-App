@@ -38,7 +38,7 @@ const getCart = () => {
 const updateCart = (data) => {
   let reqObj = {
     data: data,
-    url: "http://localhost:4001/cart/"+data.cartId,
+    url: "http://localhost:4001/cart/" + data.cartId,
     headers: {
       Authorization: localStorage.getItem("token"),
     },
@@ -53,4 +53,64 @@ const updateCart = (data) => {
     });
 };
 
-export default { addToCart, getCart, updateCart};
+const getCustomer = () => {
+  let reqObj = {
+    url: "http://localhost:4001/customer",
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+  return axiosPost
+    .apiGet(reqObj)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+const addCustomer = (data) => {
+  let reqObj = {
+    data: data,
+    url: "http://localhost:4001/customer",
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+  return axiosPost
+    .apiPost(reqObj)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+const updateCustomer = (data) => {
+  let reqObj = {
+    data: data,
+    url: "http://localhost:4001/customer/" + data._id,
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+  return axiosPost
+    .apiUpdate(reqObj)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+export default {
+  addToCart,
+  getCart,
+  updateCart,
+  getCustomer,
+  addCustomer,
+  updateCustomer,
+};

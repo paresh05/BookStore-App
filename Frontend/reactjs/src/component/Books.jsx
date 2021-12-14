@@ -18,8 +18,10 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 export default function Books() {
   const dispatch = useDispatch();
-  const [sort, setSort] = React.useState(null);
+  const [carts, setCarts] = useState(true);
+  const [sort, setSort] = useState(null);
   const books = useSelector((state) => state.allBooks.books);
+  const myCart = useSelector((state) => state.allBooks.cart);
   const handleCart = (book) => {
     let data = {
       bookId: book._id,
@@ -84,7 +86,6 @@ export default function Books() {
           <Card
             variant="outlined"
             sx={{
-              //bgcolor: note.color,
               width: "235px",
               height: "315px",
             }}
@@ -140,6 +141,14 @@ export default function Books() {
                 Rs.{book.price}
               </Typography>
             </CardContent>
+            {myCart.map((books) => {
+              if (books.bookId !== book._id) {
+                console.log("hello");
+                //setCarts(false);
+              }
+            })}
+            {console.log(carts)}
+
             <Stack spacing={2} direction="row" sx={{ paddingLeft: "15px" }}>
               <Button
                 variant="contained"

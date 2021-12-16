@@ -51,27 +51,27 @@ export default function CartItems(props) {
   };
   const handleContinue = () => {
     if (post) {
-      console.log(details);
       cartApi
         .addCustomer(details)
         .then((response) => {
           console.log(response.data);
+          props.handleId(response.data._id)
         })
         .catch((e) => {
           console.log(e);
         });
     } else {
-      console.log(details);
       cartApi
         .updateCustomer(details)
         .then((response) => {
           console.log(response);
+          props.handleId(response.data._id)
         })
         .catch((e) => {
           console.log(e);
         });
     }
-    props.handleClose()
+    props.handleClose();
   };
   return (
     <Grid

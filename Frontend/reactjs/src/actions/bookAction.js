@@ -33,3 +33,10 @@ export const updateCart = (book) => {
     payload: book,
   };
 };
+
+export const deleteCart = (book) => {
+  return {
+    type: ActionTypes.DELETE_FROM_CART,
+    payload: book,
+  };
+};

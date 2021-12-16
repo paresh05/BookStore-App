@@ -9,57 +9,75 @@ import cartApi from "../service/cartApi";
 import { Box, IconButton, Stack } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { updateCart } from "../actions/bookAction";
+import { deleteCart, updateCart } from "../actions/bookAction";
 
 export default function CartItems(props) {
   const dispatch = useDispatch();
   const myCart = useSelector((state) => state.allBooks.cart);
-  const handleIncrement = (book,index) => {
+  const handleIncrement = (book, index) => {
     let data = {
       cartId: book._id,
-      numOfItems: book.numOfItems+1,
-    }
+      numOfItems: book.numOfItems + 1,
+    };
     cartApi
       .updateCart(data)
       .then((responce) => {
-        dispatch(updateCart({data:responce.data, index:index}))
+        dispatch(updateCart({ data: responce.data, index: index }));
       })
       .catch((e) => {
         console.log(e);
       });
   };
-  const handleDecrement = (book,index) => {
+  const handleDecrement = (book, index) => {
     if (book.numOfItems !== 1) {
       let data = {
         cartId: book._id,
-        numOfItems: book.numOfItems-1,
-      }
+        numOfItems: book.numOfItems - 1,
+      };
       cartApi
-      .updateCart(data)
-      .then((responce) => {
-        dispatch(updateCart({data:responce.data, index:index}))
+        .updateCart(data)
+        .then((responce) => {
+          dispatch(updateCart({ data: responce.data, index: index }));
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+  const handleDelete = (book) => {
+    cartApi
+      .deleteFromCart(book)
+      .then(() => {
+        dispatch(deleteCart({ data: book }));
       })
       .catch((e) => {
         console.log(e);
       });
-    } 
   };
   return (
-    <Grid
-      container
-      spacing={4}
-      style={{ paddingTop: 100, paddingLeft: "177px" }}
-    >
-      {myCart.map((book, index) => (
-        <Grid item xs={12} align="left">
-          <Card
-            variant="outlined"
-            sx={{
-              width: "774px",
-              height: "241px",
+    <Grid container style={{ paddingTop: 100, paddingLeft: "177px" }}>
+      <Grid item xs={12} align="left">
+        <Card
+          variant="outlined"
+          sx={{
+            width: "774px",
+          }}
+        >
+          <Typography
+            variant="h6"
+            noWrap
+            style={{
+              textAlign: "left",
+              color: "#0A0102",
+              paddingLeft: "30px",
+              paddingTop: "10px",
             }}
-            key={index}
+            gutterBottom
+            component="div"
           >
+            My Cart ({myCart.length})
+          </Typography>
+          {myCart.map((book, index) => (
             <Grid container>
               <Grid
                 item
@@ -71,14 +89,14 @@ export default function CartItems(props) {
                   alt="images"
                   sx={{
                     width: "65px",
-                    marginTop: "65px",
+                    marginTop: "25px",
                   }}
                   height="85px"
                   image={book.image}
                 />
               </Grid>
               <Grid item xs={9}>
-                <CardContent sx={{ marginTop: "40px" }}>
+                <CardContent sx={{ marginTop: "5px" }}>
                   <Typography
                     variant="body1"
                     noWrap
@@ -125,7 +143,11 @@ export default function CartItems(props) {
                   </Typography>
                 </CardContent>
                 <Stack direction="row">
-                  <IconButton onClick={()=>{handleIncrement(book,index)}}>
+                  <IconButton
+                    onClick={() => {
+                      handleIncrement(book, index);
+                    }}
+                  >
                     <AddCircleOutlineIcon />
                   </IconButton>
                   <Box
@@ -141,26 +163,52 @@ export default function CartItems(props) {
                   >
                     {book.numOfItems}
                   </Box>
-                  <IconButton onClick={()=>handleDecrement(book,index)}>
+                  <IconButton onClick={() => handleDecrement(book, index)}>
                     <RemoveCircleOutlineIcon />
                   </IconButton>
-                </Stack>
-                <Stack spacing={2} direction="row-reverse" sx={{ paddingLeft: "15px" }}>
                   <Button
-                    variant="contained"
-                    type="submit"
-                    size="small"
-                    style={{ background: "#3371B5", color: "white", width:"151px", height:"35px"}}
-                    onClick={()=>props.handleAccordion()}
+                    variant="text"
+                    style={{
+                      fontWeight: "600",
+                      textTransform: "none",
+                      fontSize: "0.850rem",
+                      marginLeft: "26px",
+                    }}
+                    onClick={() => {
+                      handleDelete(book);
+                    }}
                   >
-                    Place Order
+                    Remove
                   </Button>
                 </Stack>
               </Grid>
             </Grid>
-          </Card>
-        </Grid>
-      ))}
+          ))}
+          <Stack
+            spacing={2}
+            direction="row-reverse"
+            sx={{
+              paddingBottom: "30px",
+              paddingRight: "30px",
+            }}
+          >
+            <Button
+              variant="contained"
+              type="submit"
+              size="small"
+              style={{
+                background: "#3371B5",
+                color: "white",
+                width: "151px",
+                height: "35px",
+              }}
+              onClick={() => props.handleAccordion()}
+            >
+              Place Order
+            </Button>
+          </Stack>
+        </Card>
+      </Grid>
     </Grid>
   );
 }

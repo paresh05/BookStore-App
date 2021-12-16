@@ -19,6 +19,10 @@ export const bookReducer = (state = initialState, { type, payload }) => {
       let newCart = [...state.cart];
       newCart[payload.index] = payload.data;
       return { ...state, cart: newCart };
+    case ActionTypes.DELETE_FROM_CART:
+      let deleteItem = [...state.cart];
+      deleteItem = deleteItem.filter((book) => book._id !== payload.data._id);
+      return { ...state, cart: deleteItem };
     default:
       return state;
   }

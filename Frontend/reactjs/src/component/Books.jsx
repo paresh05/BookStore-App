@@ -16,12 +16,11 @@ import { addCart, fetchAllBooks } from "../actions/bookAction";
 import Pagination from "@mui/material/Pagination";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+
 export default function Books() {
   const dispatch = useDispatch();
-  const [carts, setCarts] = useState(true);
   const [sort, setSort] = useState(null);
   const books = useSelector((state) => state.allBooks.books);
-  const myCart = useSelector((state) => state.allBooks.cart);
   const handleCart = (book) => {
     let data = {
       bookId: book._id,
@@ -64,19 +63,73 @@ export default function Books() {
       spacing={4}
       style={{ paddingTop: 100, paddingLeft: "150px" }}
     >
-      <Grid item xs={11} align="right">
+      <Grid item xs={2}>
+        <Typography
+          style={{
+            textAlign: "left",
+            fontSize: "25px",
+            lineHeight: "30px",
+            letterSpacing: "0px",
+            color: "#0A0102",
+            opacity: 1,
+          }}
+        >
+          Books
+        </Typography>
+      </Grid>
+      <Grid item xs={9} align="right">
         <Box sx={{ maxWidth: 180 }}>
-          <FormControl fullWidth>
-            <InputLabel id="sort">Sort by relevance</InputLabel>
+          <FormControl sx={{ width: "156px" }} size="small">
+            <InputLabel
+              id="sort"
+              style={{
+                fontSize: "14px",
+                lineHeight: "15px",
+                letterSpacing: "0px",
+                color: "#0A0102",
+                opacity: 1,
+              }}
+            >
+              Sort by relevance
+            </InputLabel>
             <Select
               labelId="sort"
               id="sort by relevance"
               value={sort}
               label="Sort by relevance"
+              style={{
+                fontSize: "14px",
+                lineHeight: "15px",
+                letterSpacing: "0px",
+                color: "#0A0102",
+                opacity: 1,
+              }}
               onChange={handleSortChange}
             >
-              <MenuItem value={1}>Price:Low to High</MenuItem>
-              <MenuItem value={2}>Price:High to Low</MenuItem>
+              <MenuItem
+                value={1}
+                style={{
+                  fontSize: "14px",
+                  lineHeight: "15px",
+                  letterSpacing: "0px",
+                  color: "#0A0102",
+                  opacity: 1,
+                }}
+              >
+                Price:Low to High
+              </MenuItem>
+              <MenuItem
+                value={2}
+                style={{
+                  fontSize: "14px",
+                  lineHeight: "15px",
+                  letterSpacing: "0px",
+                  color: "#0A0102",
+                  opacity: 1,
+                }}
+              >
+                Price:High to Low
+              </MenuItem>
             </Select>
           </FormControl>
         </Box>
@@ -141,14 +194,6 @@ export default function Books() {
                 Rs.{book.price}
               </Typography>
             </CardContent>
-            {myCart.map((books) => {
-              if (books.bookId !== book._id) {
-                console.log("hello");
-                //setCarts(false);
-              }
-            })}
-            {console.log(carts)}
-
             <Stack spacing={2} direction="row" sx={{ paddingLeft: "15px" }}>
               <Button
                 variant="contained"

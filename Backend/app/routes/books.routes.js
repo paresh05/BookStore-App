@@ -15,6 +15,8 @@ module.exports = (app) => {
     } = require("../middleware/cart.middleware.js");
 
     app.get("/books",verifyToken ,books.findAll);
+
+    app.post("/books/search",verifyToken ,books.findBooks);
   
   };
   

@@ -38,6 +38,14 @@ export default function CartItems(props) {
       .catch((e) => {
         console.log(e);
       });
+    cartApi
+      .deleteAllItems()
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     setRedirect(true);
   };
   useEffect(() => {

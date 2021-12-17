@@ -6,11 +6,14 @@ import { Redirect } from "react-router-dom";
 import Appbar from "../component/AppBar";
 export default function CartItems() {
   const [redirect, setRedirect] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  console.log(orderId);
   const handleOrder = () => {
     cartApi
       .getOrder()
       .then((response) => {
         console.log(response.data);
+        setOrderId(response.data[0].orderdOn)
       })
       .catch((e) => {
         console.log(e);
@@ -36,7 +39,7 @@ export default function CartItems() {
             opacity: 1,
           }}
         >
-          hurray!!! your order is confirmed the order id is #123456 save the
+          hurray!!! your order is confirmed the order id is {orderId} save the
           order id for further communication..
         </Typography>
       </Grid>

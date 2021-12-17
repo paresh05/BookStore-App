@@ -36,6 +36,23 @@ const deleteFromCart = (data) => {
     });
 };
 
+const deleteAllItems = () => {
+  let reqObj = {
+    url: "http://localhost:4001/cart/",
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+  return axiosPost
+    .apiDelete(reqObj)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
 const getCart = () => {
   let reqObj = {
     url: "http://localhost:4001/cart",
@@ -162,6 +179,7 @@ const getOrder = () => {
 export default {
   addToCart,
   deleteFromCart,
+  deleteAllItems,
   getCart,
   updateCart,
   getCustomer,

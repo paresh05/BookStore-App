@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
@@ -10,10 +10,13 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import booksApi from "../service/booksApi";
 import Popover from "@mui/material/Popover";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button } from "@material-ui/core";
 import { Stack } from "@mui/material";
 import { Redirect } from "react-router-dom";
+import { fetchFilteredBooks } from "../actions/bookAction";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,15 +65,39 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
 }));
 
 export default function Appbar() {
+  const dispatch = useDispatch();
   const [redirect, setRedirect] = useState(false);
   const [input, setInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const myBooks = useSelector((state) => state.allBooks.books);
+
+  useEffect(() => {
+    dispatch(fetchFilteredBooks(myBooks));
+  }, [myBooks]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleSearch = (event) => {
+    setInput(event.target.value);
+    if (event.target.value.length > 3) {
+      booksApi
+        .searchBook({search:event.target.value})
+        .then((response) => {
+          console.log(response);
+          dispatch(fetchFilteredBooks(response.data));
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }else {
+      dispatch(fetchFilteredBooks(myBooks));
+    }
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -81,7 +108,7 @@ export default function Appbar() {
         sx={{ bgcolor: "rgba(160, 48, 55, 1)" }}
       >
         <Toolbar sx={{ ml: "161px" }}>
-          <MenuBookIcon/>
+          <MenuBookIcon />
           <Typography
             variant="h6"
             noWrap
@@ -97,16 +124,21 @@ export default function Appbar() {
             <StyledInputBase
               placeholder="Search"
               value={input}
+              onChange={(event) => {
+                handleSearch(event);
+              }}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" }}}>
-            <Stack spacing={1} direction="row"sx={{ marginRight: "80px" }}>
-              <Typography sx={{paddingTop:2}}>Cart</Typography>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Stack spacing={1} direction="row" sx={{ marginRight: "80px" }}>
+              <Typography sx={{ paddingTop: 2 }}>Cart</Typography>
               <IconButton
                 size="large"
                 color="inherit"
-                onClick={()=>{setRedirect(true)}}
+                onClick={() => {
+                  setRedirect(true);
+                }}
               >
                 <ShoppingCartOutlinedIcon />
               </IconButton>

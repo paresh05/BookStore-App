@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,11 +16,16 @@ import { addCart, fetchAllBooks } from "../actions/bookAction";
 import Pagination from "@mui/material/Pagination";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import Popover from "@mui/material/Popover";
+import { Typography } from "@mui/material";
 
 export default function Books() {
   const dispatch = useDispatch();
   const [sort, setSort] = useState(null);
-  const books = useSelector((state) => state.allBooks.books);
+  const [bookIndex, setBookIndex] = useState(0);
+  console.log(bookIndex);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const books = useSelector((state) => state.allBooks.filteredBooks);
   const handleCart = (book) => {
     let data = {
       bookId: book._id,
@@ -41,15 +46,8 @@ export default function Books() {
   };
   const handleSortChange = (event) => {
     setSort(event.target.value);
-    if (event.target.value == 1) {
-      books.sort((a, b) => a.price - b.price);
-    } else if (event.target.value == 2) {
-      books.sort((a, b) => b.price - a.price);
-    }
-  };
-  const handlePage = (page) => {
     booksApi
-      .getBooks(page)
+      .getBooks(1, event.target.value)
       .then((response) => {
         dispatch(fetchAllBooks(response.data));
       })
@@ -57,6 +55,28 @@ export default function Books() {
         console.log(e);
       });
   };
+  const handlePage = (page) => {
+    setBookIndex(0);
+    booksApi
+      .getBooks(page, sort)
+      .then((response) => {
+        dispatch(fetchAllBooks(response.data));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const handlePopoverOpen = (index) => (event) => {
+    setAnchorEl(event.currentTarget);
+    setBookIndex(index);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
     <Grid
       container
@@ -64,18 +84,33 @@ export default function Books() {
       style={{ paddingTop: 100, paddingLeft: "150px" }}
     >
       <Grid item xs={2}>
-        <Typography
-          style={{
-            textAlign: "left",
-            fontSize: "25px",
-            lineHeight: "30px",
-            letterSpacing: "0px",
-            color: "#0A0102",
-            opacity: 1,
-          }}
-        >
-          Books
-        </Typography>
+        <Stack spacing={1} direction="row">
+          <Typography
+            style={{
+              textAlign: "left",
+              fontSize: "25px",
+              lineHeight: "30px",
+              letterSpacing: "0px",
+              color: "#0A0102",
+              opacity: 1,
+            }}
+          >
+            Books
+          </Typography>
+          <Typography
+            style={{
+              textAlign: "left",
+              fontSize: "12px",
+              lineHeight: "15px",
+              letterSpacing: "0px",
+              color: "#9D9D9D",
+              opacity: 1,
+              paddingTop:"12px"
+            }}
+          >
+            (52 Items)
+          </Typography>
+        </Stack>
       </Grid>
       <Grid item xs={9} align="right">
         <Box sx={{ maxWidth: 180 }}>
@@ -107,7 +142,7 @@ export default function Books() {
               onChange={handleSortChange}
             >
               <MenuItem
-                value={1}
+                value={"Low"}
                 style={{
                   fontSize: "14px",
                   lineHeight: "15px",
@@ -119,7 +154,7 @@ export default function Books() {
                 Price:Low to High
               </MenuItem>
               <MenuItem
-                value={2}
+                value={"High"}
                 style={{
                   fontSize: "14px",
                   lineHeight: "15px",
@@ -143,6 +178,8 @@ export default function Books() {
               height: "315px",
             }}
             key={index}
+            onMouseEnter={handlePopoverOpen(index)}
+            onMouseLeave={handlePopoverClose}
           >
             <CardMedia
               component="img"
@@ -208,6 +245,29 @@ export default function Books() {
                 Wishlist
               </Button>
             </Stack>
+            <Popover
+              id="mouse-over-popover"
+              elevation={2}
+              sx={{
+                pointerEvents: "none",
+              }}
+              open={open}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus
+            >
+              <Typography sx={{ p: 1, width: "250px", maxHeight: "250px" }}>
+                {books[bookIndex].description}
+              </Typography>
+            </Popover>
           </Card>
         </Grid>
       ))}

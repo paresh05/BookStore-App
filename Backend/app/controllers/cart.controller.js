@@ -13,6 +13,7 @@ const {
   findAllCart,
   updateCart,
   deleteCartById,
+  deleteAllCartItems,
 } = require("../service/cart.service.js");
 const logger = require("../../logger");
 
@@ -116,6 +117,24 @@ exports.delete = (req, res) => {
       return res.status(404).send({
         message: "cart not found with id " + req.params.cartId,
       });
+    }
+    res.send({ message: "Cart deleted successfully!" });
+    logger.info("Successfully deleted the cart");
+  });
+};
+
+/**
+ * @description handles request and response for deleting all the cart items
+ * @param {Object} req
+ * @param {Object} res
+ */
+ exports.deleteItems = (req, res) => {
+  deleteAllCartItems(req.body.userId,(err, cart) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Some error occurred while deleting the cart.",
+      });
+      logger.error("Some error occurred while deleting cart.");
     }
     res.send({ message: "Cart deleted successfully!" });
     logger.info("Successfully deleted the cart");

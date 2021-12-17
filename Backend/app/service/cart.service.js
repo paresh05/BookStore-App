@@ -8,7 +8,7 @@
  *
  **************************************************************************/
 
-const { createCart, findCart, deleteCart, findCartAndUpdate} = require("../model/cart.model.js");
+const { createCart, findCart, deleteCart, findCartAndUpdate, deleteAll} = require("../model/cart.model.js");
 
 /**
  * @description creates a new cart using create cart function
@@ -62,9 +62,21 @@ const deleteCartById = (findCartId, callback) => {
   });
 };
 
+/**
+ * @description deletes the cart using deleteCart functon
+ * @param {_id} findCartId
+ * @param {callback} callback
+ */
+ const deleteAllCartItems = (userId, callback) => {
+  deleteAll(userId, (err, data) => {
+    return err ? callback(err, null) : callback(null, data);
+  });
+};
+
 module.exports = {
   createNewCart,
   findAllCart,
   updateCart,
   deleteCartById,
+  deleteAllCartItems,
 };

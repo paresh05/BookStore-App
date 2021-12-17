@@ -14,9 +14,9 @@ const mongoose = require("mongoose");
 const CartSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   bookId: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
-  author:String,
-  image:String,
-  title:String,
+  author: String,
+  image: String,
+  title: String,
   price: String,
   numOfItems: Number,
 });
@@ -28,7 +28,10 @@ const Cart = mongoose.model("Cart", CartSchema);
  * @param {callback} callback
  * @returns err or cart
  */
-const createCart = ({userId, bookId, price, title, image, author}, callback) => {
+const createCart = (
+  { userId, bookId, price, title, image, author },
+  callback
+) => {
   const cart = new Cart({
     userId: userId,
     bookId: bookId,
@@ -48,23 +51,19 @@ const createCart = ({userId, bookId, price, title, image, author}, callback) => 
  * @param {callback} callback
  */
 const findCart = (userId, callback) => {
-  Cart.find({ userId: userId },(err, cart) => {
+  Cart.find({ userId: userId }, (err, cart) => {
     return err ? callback(err, null) : callback(null, cart);
   });
 };
 
 /**
-  * @description This function updates a cart of the id passed
-  * @param {string} findCartId 
-  * @param {string} numOfItems 
-  * @param {string} callback 
-  * @returns err or data
-  */
- const findCartAndUpdate = (
-  findCartId,
-  numOfItems,
-  callback
-) => {
+ * @description This function updates a cart of the id passed
+ * @param {string} findCartId
+ * @param {string} numOfItems
+ * @param {string} callback
+ * @returns err or data
+ */
+const findCartAndUpdate = (findCartId, numOfItems, callback) => {
   return Cart.findByIdAndUpdate(
     findCartId,
     {
@@ -87,4 +86,21 @@ const deleteCart = (findCartId, callback) => {
     return err ? callback(err, null) : callback(null, data);
   });
 };
-module.exports = { Cart, createCart, findCart, deleteCart, findCartAndUpdate};
+
+/**
+ * @description This function is used to delete all items of cart
+ * @param {callback} callback
+ */
+const deleteAll = (userId, callback) => {
+  Cart.deleteMany({userId:userId}, (err, data) => {
+    return err ? callback(err, null) : callback(null, data);
+  });
+};
+module.exports = {
+  Cart,
+  createCart,
+  findCart,
+  deleteCart,
+  findCartAndUpdate,
+  deleteAll,
+};

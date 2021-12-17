@@ -8,7 +8,7 @@
  *
  **************************************************************************/
 
-const { findAllBook, findBookById } = require("../service/books.service.js");
+const { findAllBook, findSearchedBook } = require("../service/books.service.js");
 const logger = require("../../logger");
 /**
  * @description handles request and response for finding all the books
@@ -16,7 +16,7 @@ const logger = require("../../logger");
  * @param {Object} res
  */
 exports.findAll = (req, res) => {
-  findAllBook(req.query.page,(err, user) => {
+  findAllBook(req.query.page,req.query.sort,(err, user) => {
     if (err) {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving books.",
@@ -25,5 +25,23 @@ exports.findAll = (req, res) => {
     }
     res.send(user);
     logger.info("Successfully returned all the books. ");
+  });
+};
+
+/**
+ * @description handles request and response for finding the searched book
+ * @param {Object} req
+ * @param {Object} res
+ */
+ exports.findBooks = (req, res) => {
+  findSearchedBook(req.body.search,(err, user) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving book.",
+      });
+      logger.error("Some error occurred while retrieving book.");
+    }
+    res.send(user);
+    logger.info("Successfully returned the searched books.");
   });
 };

@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import Appbar from "../component/AppBar";
 import userConnect from "../service/booksApi";
-import cartApi from "../service/cartApi";
-import { fetchAllBooks, fetchCart } from "../actions/bookAction";
+import { fetchAllBooks } from "../actions/bookAction";
 import { useDispatch } from "react-redux";
 import Books from "../component/Books";
 
@@ -16,7 +15,7 @@ export default function Dashboard() {
 
   const fetchBooks = () => {
     userConnect
-      .getBooks(1)
+      .getBooks(1,"no")
       .then((response) => {
         dispatch(fetchAllBooks(response.data));
       })

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
-
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -52,35 +51,33 @@ export default function CartItems(props) {
     handlePrice();
   }, [myCart]);
   return (
-    <Grid
-      container
-      spacing={4}
-      style={{ paddingTop: 65, paddingLeft: "210px" }}
-    >
+    <Grid style={{ paddingTop: 20, paddingLeft: "12%", paddingBottom:"20px"}}>
       <Accordion
         expanded={props.order == true}
-        sx={{ width: "774px" }}
+        sx={{ maxWidth: "774px", width: "90%" }}
         square
         variant="outlined"
       >
         <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
           <Typography
+            id="OrderSummary"
             variant="h6"
-            style={{ width: "33%", flexShrink: 0, color: "#333232" }}
+            style={{ color: "#333232" }}
           >
             Order Summary
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid item xs={12} align="left">
+          <Grid container item xs={12} align="left">
             <Card
               sx={{
-                width: "740px",
+                maxWidth: "740px",
+                width: "100%",
               }}
               elevation={0}
             >
               {myCart.map((books) => (
-                <Grid container>
+                <Grid container style={{ marginLeft: "15px" }}>
                   <Grid
                     item
                     xs={2}
@@ -127,7 +124,6 @@ export default function CartItems(props) {
                       >
                         by {books.author}
                       </Typography>
-
                       <Typography
                         style={{
                           height: "20px",
@@ -146,36 +142,38 @@ export default function CartItems(props) {
                   </Grid>
                 </Grid>
               ))}
-              <Stack spacing={14} direction="row-reverse">
-                <Button
-                  variant="contained"
-                  type="submit"
-                  size="small"
-                  style={{
-                    background: "#3371B5",
-                    color: "white",
-                    width: "151px",
-                    height: "35px",
-                  }}
-                  onClick={handleOrder}
-                >
-                  Checkout
-                </Button>
+              <Grid item xs={9} align="right">
                 <Typography
+                  id="totalPrice"
                   style={{
-                    height: "20px",
-                    overflow: "hidden",
-                    fontSize: "15px",
-                    lineHeight: "18px",
                     fontWeight: "bold",
                     letterSpacing: "0px",
+                    fontSize: "15px",
+                    lineHeight: "18px",
                     color: "#0A0102",
                     opacity: 1,
                   }}
                 >
                   Total Price: Rs.{totalPrice}
                 </Typography>
-              </Stack>
+              </Grid>
+              <Grid item xs={12} align="right" style={{paddingTop:"20px"}}>
+                <Button
+                  type="submit"
+                  value="Submit"
+                  color="primary"
+                  variant="contained"
+                  fullWidth
+                  style={{
+                    maxWidth: "160px",
+                    backgroundColor: "#3371B5",
+                    color: "white",
+                  }}
+                  onClick={handleOrder}
+                >
+                  Checkout
+                </Button>
+              </Grid>
             </Card>
           </Grid>
         </AccordionDetails>

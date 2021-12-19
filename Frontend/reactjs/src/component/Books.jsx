@@ -19,13 +19,13 @@ import Stack from "@mui/material/Stack";
 import Popover from "@mui/material/Popover";
 import { Typography } from "@mui/material";
 
-export default function Books() {
+export default function Books(props) {
   const dispatch = useDispatch();
   const [sort, setSort] = useState(null);
   const [bookIndex, setBookIndex] = useState(0);
-  console.log(bookIndex);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const books = useSelector((state) => state.allBooks.filteredBooks);
+  const myCart = useSelector((state) => state.allBooks.cart);
   const handleCart = (book) => {
     let data = {
       bookId: book._id,
@@ -49,7 +49,7 @@ export default function Books() {
     booksApi
       .getBooks(1, event.target.value)
       .then((response) => {
-        dispatch(fetchAllBooks(response.data));
+        dispatch(fetchAllBooks(response.data.books));
       })
       .catch((e) => {
         console.log(e);
@@ -60,7 +60,7 @@ export default function Books() {
     booksApi
       .getBooks(page, sort)
       .then((response) => {
-        dispatch(fetchAllBooks(response.data));
+        dispatch(fetchAllBooks(response.data.books));
       })
       .catch((e) => {
         console.log(e);
@@ -78,12 +78,8 @@ export default function Books() {
   const open = Boolean(anchorEl);
 
   return (
-    <Grid
-      container
-      spacing={4}
-      style={{ paddingTop: 100, paddingLeft: "150px" }}
-    >
-      <Grid item xs={2}>
+    <Grid container spacing={4} style={{ paddingTop: 100, paddingLeft: "10%" }}>
+      <Grid item xs={5}>
         <Stack spacing={1} direction="row">
           <Typography
             style={{
@@ -98,6 +94,7 @@ export default function Books() {
             Books
           </Typography>
           <Typography
+            id="items"
             style={{
               textAlign: "left",
               fontSize: "12px",
@@ -105,16 +102,16 @@ export default function Books() {
               letterSpacing: "0px",
               color: "#9D9D9D",
               opacity: 1,
-              paddingTop:"12px"
+              paddingTop: "12px",
             }}
           >
-            (52 Items)
+            ({props.noOfBooks} Items)
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={9} align="right">
+      <Grid item xs={6} align="right">
         <Box sx={{ maxWidth: 180 }}>
-          <FormControl sx={{ width: "156px" }} size="small">
+          <FormControl sx={{ width: "156px" }} id="sortPrice" size="small">
             <InputLabel
               id="sort"
               style={{
@@ -181,12 +178,27 @@ export default function Books() {
             onMouseEnter={handlePopoverOpen(index)}
             onMouseLeave={handlePopoverClose}
           >
-            <CardMedia
-              component="img"
-              alt="images"
-              height="171px"
-              image={book.image}
-            />
+            <Grid
+              width={"235px"}
+              height={"171px"}
+              style={{
+                backgroundColor: "#F5F5F5",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              align="center"
+            >
+              <CardMedia
+                component="img"
+                alt="images"
+                image={book.image}
+                style={{
+                  width: "105px",
+                  height: "145px",
+                }}
+              />
+            </Grid>
             <CardContent>
               <Typography
                 variant="body1"
@@ -231,20 +243,36 @@ export default function Books() {
                 Rs.{book.price}
               </Typography>
             </CardContent>
-            <Stack spacing={2} direction="row" sx={{ paddingLeft: "15px" }}>
+            {myCart.some((obj) => obj.bookId === book._id) ? (
               <Button
                 variant="contained"
                 type="submit"
                 size="small"
-                style={{ background: "#A03037", color: "white" }}
-                onClick={() => handleCart(book)}
+                style={{
+                  background: "#3371B5",
+                  color: "white",
+                  marginLeft: "25px",
+                  width: "181px",
+                }}
               >
-                Add to bag
+                Added to bag
               </Button>
-              <Button variant="outlined" type="submit" size="small">
-                Wishlist
-              </Button>
-            </Stack>
+            ) : (
+              <Stack spacing={2} direction="row" sx={{ paddingLeft: "15px" }}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  size="small"
+                  style={{ background: "#A03037", color: "white" }}
+                  onClick={() => handleCart(book)}
+                >
+                  Add to bag
+                </Button>
+                <Button variant="outlined" type="submit" size="small">
+                  Wishlist
+                </Button>
+              </Stack>
+            )}
             <Popover
               id="mouse-over-popover"
               elevation={2}
@@ -264,22 +292,34 @@ export default function Books() {
               onClose={handlePopoverClose}
               disableRestoreFocus
             >
-              <Typography sx={{ p: 1, width: "250px", maxHeight: "250px" }}>
+              <Typography
+                style={{
+                  fontSize: "12px",
+                  lineHeight: "15px",
+                  letterSpacing: "0px",
+                  color: "#0A0102",
+                  opacity: 1,
+                  overflow: "hidden",
+                  width: "280px",
+                  maxHeight: "250px",
+                  padding: "10px",
+                }}
+              >
                 {books[bookIndex].description}
               </Typography>
             </Popover>
           </Card>
         </Grid>
       ))}
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
         <Pagination
-          count={5}
+          count={Math.ceil(props.noOfBooks/12)}
+          color="primary"
+          shape="rounded"
+          sx={{ pb: 3, pr: "7%" }}
           onChange={(event, page) => {
             handlePage(page);
           }}
-          color="primary"
-          shape="rounded"
-          sx={{ pl: 48, pb: 3 }}
         />
       </Grid>
     </Grid>

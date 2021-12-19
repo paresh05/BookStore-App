@@ -3,3 +3,4 @@
 package-lock.json
 logger/.9e8a7e6ce2cff7f793c3b9b73af61b8dcef2d5e4-audit.json
 logger/*.log
+logger/*.log.gz

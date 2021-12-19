@@ -24,8 +24,9 @@ const findAllBook = (pageNo, sort, callback) => {
     } else if (sort == "High") {
       data.sort((a, b) => b.price - a.price);
     }
+    const count = data.length;
     const paginatedData = data.slice(startIndex, endIndex);
-    return err ? callback(err, null) : callback(null, paginatedData);
+    return err ? callback(err, null) : callback(null, {books:paginatedData, count: count});
   });
 };
 

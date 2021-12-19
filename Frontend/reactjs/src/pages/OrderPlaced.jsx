@@ -44,7 +44,7 @@ export default function CartItems() {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <table border="1" cellpadding="15" cellspacing="0" align="center">
+        <table id="table" border="1" cellpadding="15" cellspacing="0" align="center">
           <thead>
             <tr>
               <th>Email us</th>

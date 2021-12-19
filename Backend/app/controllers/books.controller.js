@@ -16,14 +16,14 @@ const logger = require("../../logger");
  * @param {Object} res
  */
 exports.findAll = (req, res) => {
-  findAllBook(req.query.page,req.query.sort,(err, user) => {
+  findAllBook(req.query.page,req.query.sort,(err, books) => {
     if (err) {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving books.",
       });
       logger.error("Some error occurred while retrieving books.");
     }
-    res.send(user);
+    res.send(books);
     logger.info("Successfully returned all the books. ");
   });
 };

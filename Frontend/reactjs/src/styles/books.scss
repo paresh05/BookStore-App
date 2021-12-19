@@ -1,0 +1,72 @@
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #title {
+    display: none;
+  }
+  #searchBox {
+    margin-left: 10%;
+  }
+  #sortPrice {
+    width: 90px;
+  }
+  #cartTitle {
+    display: none;
+  }
+  #items {
+    display: none;
+  }
+  #cart {
+    margin-left: 10%;
+  }
+  #placeOrder {
+    margin-top: 20px;
+    width: 80px;
+    font-size: 8px;
+  }
+  #mycart {
+    padding-left: 10px;
+  }
+  #customerTitle {
+    padding-left: 2px;
+  }
+  #checkout {
+    width: 80px;
+    font-size: 8px;
+  }
+  #searchBase {
+    padding-left: 30px;
+  }
+  #OrderSummary {
+    padding-left: 2px;
+  }
+  #cartPage {
+    padding-top: 80px;
+  }
+  #table {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1500px) {
+  #placeOrder {
+    width: 151px;
+  }
+  #mycart {
+    padding-left: 30px;
+  }
+  #customerTitle {
+    padding-left: 15px;
+  }
+  #searchBase {
+    padding-left: 50px;
+  }
+  #checkout {
+    font-size: 14px;
+    width: 151px;
+  }
+  #OrderSummary {
+    padding-left: 15px;
+  }
+  #cartPage {
+    padding-top: 100px;
+  }
+}

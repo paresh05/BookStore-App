@@ -71,10 +71,13 @@
   * @description This function is used to retrieve all the users
   * @param {callback} callback 
   */
- const findUser = (callback) => {
-   User.find((err, user) => {
-     return err ? callback(err, null) : callback(null, user);
-   });
+ const findUser = async() => {
+  try {
+    let data = await User.find();
+    return data;
+  } catch (error) {
+    throw error;
+  }
  };
  /**
   * @description This function is used to retrieve a user by passing the id

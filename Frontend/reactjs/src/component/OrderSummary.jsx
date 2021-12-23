@@ -159,6 +159,7 @@ export default function CartItems(props) {
               </Grid>
               <Grid item xs={12} align="right" style={{paddingTop:"20px"}}>
                 <Button
+                  id="checkout"
                   type="submit"
                   value="Submit"
                   color="primary"

@@ -207,6 +207,7 @@ export default function CartItems(props) {
               align="right"
             >
               <Button
+                id="continue"
                 type="submit"
                 value="Submit"
                 variant="contained"

@@ -125,6 +125,7 @@ export default function Appbar() {
                 Cart
               </Typography>
               <IconButton
+                id="cartButton"
                 size="large"
                 color="inherit"
                 onClick={() => {

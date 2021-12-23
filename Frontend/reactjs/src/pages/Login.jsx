@@ -35,7 +35,6 @@ class Login extends React.Component {
     userConnect
       .login(data)
       .then((response) => {
-        alert(`Logged In Successfully !!!!`);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("name", response.data.data.firstName[0]);
         this.setState({ redirect: true });

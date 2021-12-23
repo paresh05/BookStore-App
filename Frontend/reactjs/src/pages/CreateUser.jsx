@@ -203,6 +203,7 @@ export class CreateUser extends React.Component {
                           </Grid>
                           <Grid item xs={6}>
                             <Button
+                              id="submit"
                               type="submit"
                               value="Submit"
                               color="primary"

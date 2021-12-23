@@ -37,7 +37,7 @@ export default function Books(props) {
     console.log(data);
     userConnect
       .addToCart(data)
-      .then(() => {
+      .then((res) => {
         dispatch(addCart(data));
       })
       .catch((e) => {

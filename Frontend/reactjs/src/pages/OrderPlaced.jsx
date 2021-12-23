@@ -12,8 +12,7 @@ export default function CartItems() {
     cartApi
       .getOrder()
       .then((response) => {
-        console.log(response.data);
-        setOrderId(response.data[0].orderdOn)
+        setOrderId(response.data[0]._id)
       })
       .catch((e) => {
         console.log(e);
@@ -66,6 +65,7 @@ export default function CartItems() {
       </Grid>
       <Grid item xs={12}>
         <Button
+          id="dashboard"
           variant="contained"
           type="submit"
           style={{

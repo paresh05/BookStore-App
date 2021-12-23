@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchCarts();
-    fetchBooks();
+    fetchBooks(); // eslint-disable-next-line
   }, []);
 
   const fetchCarts = () => {

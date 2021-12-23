@@ -1,9 +1,11 @@
 import axiosPost from "../helper/axios";
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 const register = (data) => {
   let reqObj = {
     data: data,
-    url: "http://localhost:4001/users",
+    url: baseUrl+"/users",
     headers: {
       "Content-type": "application/json",
     },
@@ -19,9 +21,10 @@ const register = (data) => {
 };
 
 const login = (data) => {
+  console.log(baseUrl);
   let reqObj = {
     data: data,
-    url: "http://localhost:4001/users/login",
+    url: baseUrl+"/users/login",
     headers: {
       "Content-type": "application/json",
     },
@@ -39,7 +42,7 @@ const login = (data) => {
 const forgotPassword = (data) => {
   let reqObj = {
     data: data,
-    url: "http://localhost:4001/users/login/forgotPassword",
+    url: baseUrl+"/users/login/forgotPassword",
     headers: {
       "Content-type": "application/json",
     },
@@ -57,7 +60,7 @@ const forgotPassword = (data) => {
 const resetPassword = (data, token) => {
   let reqObj = {
     data: data,
-    url: "http://localhost:4001/users/login/reset/" + token,
+    url: baseUrl+"/users/login/reset/" + token,
     headers: {
       "Content-type": "application/json",
     },

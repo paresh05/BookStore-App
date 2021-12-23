@@ -186,6 +186,7 @@ export default function CartItems(props) {
         {myCart.length !== 0 ? (
           <Grid item xs={12} align="right" style={{padding:18}}>
             <Button
+              id="placeOrder"
               type="submit"
               value="Submit"
               variant="contained"

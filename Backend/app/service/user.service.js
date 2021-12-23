@@ -10,6 +10,7 @@
 
 const jwtUtil = require("../../utility/jwt");
 const bcrypt = require("bcrypt");
+const redis = require("../../utility/redis/cache");
 const {
   createUser,
   findUser,
@@ -88,10 +89,18 @@ const createNewUser = (
  * @description finds all the users using findUser function
  * @param {callback} callback
  */
-const findAllUsers = (callback) => {
-  findUser((err, data) => {
-    return err ? callback(err, null) : callback(null, data);
-  });
+const findAllUsers = async() => {
+  try {
+    let data = await redis.getUser("user");
+    if (data === null) {
+      data = await findUser();
+      await redis.setUser("user", JSON.stringify(data));
+    }
+    await redis.closeConnection();
+    return JSON.parse(data);
+  } catch (error) {
+    throw error;
+  }
 };
 /**
  * @description finds a user with id passed using findUsersId function
